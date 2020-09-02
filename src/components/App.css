@@ -1,0 +1,8 @@
+.ui.stackable.grid > .map-container{
+    padding-left: 0;
+}
+
+.ui.stackable.grid > .list-container{
+    padding-right: 0;
+    padding-bottom: 0;
+}
