@@ -2,20 +2,17 @@ import React from 'react';
 
 import { TerrainList, MapContainer } from 'components/organisms';
 
-import './style.scss';
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      terrains: [],
       lat: props.lat,
       long: props.long,
-      selectedTerrain: null,
+      selectedTerrain: null
     };
   }
 
-  onSelectTerrain = async terrain => {
+  onSelectTerrain = async (terrain) => {
     this.setState({ selectedTerrain: terrain });
   };
 

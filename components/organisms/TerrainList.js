@@ -1,20 +1,16 @@
 import React from 'react';
 
 import { TerrainCard } from 'components/molecules';
-import './style.scss';
 
 class TerrainList extends React.Component {
   render() {
-    const terrains = this.props.terrains.map(terrain => {
+    const terrains = this.props.terrains.map((terrain) => {
       return (
         <TerrainCard
           key={terrain.id}
           terrain={terrain}
           onSelectTerrain={this.props.onSelectTerrain}
-          selected={
-            this.props.selectedTerrain &&
-            terrain.id === this.props.selectedTerrain.id
-          }
+          selected={this.props.selectedTerrain && terrain.id === this.props.selectedTerrain.id}
         />
       );
     });

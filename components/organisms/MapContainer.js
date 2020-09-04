@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 class MapContainer extends React.Component {
   constructor(props) {
@@ -9,33 +9,35 @@ class MapContainer extends React.Component {
       bounds: new this.props.google.maps.LatLngBounds(),
       map: null,
       lat: this.props.lat,
-      lng: this.props.long,
+      lng: this.props.long
     };
   }
 
   componentDidMount() {
-    const {terrains} = this.props;
+    const { terrains } = this.props;
     const points = terrains
       .filter((t) => !isNaN(t.latitude) && !isNaN(t.longitude))
+      .filter((t) => t.latitude !== null && t.longitude !== null)
       .map((t) => {
-        return {lat: t.latitude, lng: t.longitude};
+        return { lat: t.latitude, lng: t.longitude };
       });
     const bounds = new this.props.google.maps.LatLngBounds();
+    console.log('points', points);
     for (const p of points) {
       bounds.extend(p);
     }
-    this.setState({bounds});
+    this.setState({ bounds });
   }
 
   render() {
-    const {lat, lng} = this.state;
-    const {terrains} = this.props;
+    const { lat, lng } = this.state;
+    const { terrains } = this.props;
     const mapCenter = this.props.selectedTerrain
       ? {
           lat: this.props.selectedTerrain.latitude,
-          lng: this.props.selectedTerrain.longitude,
+          lng: this.props.selectedTerrain.longitude
         }
-      : {lat, lng};
+      : { lat, lng };
     const markers = terrains
       .filter((t) => !isNaN(t.latitude) && !isNaN(t.longitude))
       .map((t) => {
@@ -47,7 +49,7 @@ class MapContainer extends React.Component {
         return (
           <Marker
             key={t.id}
-            position={{lat: t.latitude, lng: t.longitude}}
+            position={{ lat: t.latitude, lng: t.longitude }}
             title={t.projectName || 'Sin Nombre'}
             name={t.projectName || 'Sin Nombre'}
             icon={`http://maps.google.com/mapfiles/ms/icons/${icon}-dot.png`}
@@ -69,5 +71,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyCIMNBpLsjRfOebwkU9yO7SD9kGHfQeGRE',
+  apiKey: 'AIzaSyCIMNBpLsjRfOebwkU9yO7SD9kGHfQeGRE'
 })(MapContainer);
