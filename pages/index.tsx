@@ -1,60 +1,69 @@
 import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Spinner } from '../components/atoms';
 import { MapContainer, TerrainSection } from '../components/organisms';
-import { fetchTerrains, setCoordinates } from '../actions';
+
 import { Terrain } from './api/spreadsheet';
+import { setTerrains, setCoordinates } from '../services/store/terrain/actions';
 
-const Index = ({ lat, lng, terrains, fetchTerrains, setCoordinates }: 
-	{lat: number, lng: number, terrains: Array<Terrain>, fetchTerrains: any, setCoordinates: any}) => {
-	const [message, setMessage] = useState('Cargando Allpayki...');
-	const [errorMessage, setErrorMessage] = useState('');
+import { getUserGeolocation } from '../utils';
 
-	const getUserGeolocation = async () : Promise<any> => {
-		return new Promise((resolve, reject) => {
-			window.navigator.geolocation.getCurrentPosition( 
-				position => resolve({ lat: position?.coords?.latitude, lng: position?.coords?.longitude })
-				, err => reject(err.message)
-			);
-		});
-	};
+const Index = () => {
+    const {
+        lat,
+        lng,
+        terrains
+    }: {
+        lat: number;
+        lng: number;
+        terrains: Array<Terrain>;
+    } = useSelector((state) => state.terrain);
+    const dispatch = useDispatch();
 
-	useEffect(() => {
-		const initialLoading = async () => {
-			try{
-				setMessage('Por favor active la ubicación...');
-				const { lat, lng } = await getUserGeolocation();
-				setCoordinates(lat, lng);
-				setMessage('Cargando Terrenos...');
-				await fetchTerrains();
-			} catch(e) {
-				setMessage(e);
-				setErrorMessage(e);
-			}
-		}
-		initialLoading();
-		return () => {};
-	}, []);
+    const [message, setMessage] = useState('Cargando Allpayki...');
+    const [errorMessage, setErrorMessage] = useState('');
 
-	if (lat && lng && terrains.length > 0 && !errorMessage)
-		return (
-			<div className="ui container">
-				<div className="ui grid">
-					<div className="row"><TerrainSection /></div>
-					<div className="row"><MapContainer /></div>
-				</div>
-			</div>
-		);
-	return <Spinner message={message} />;
-}
+    useEffect(() => {
+        const initialLoading = async () => {
+            try {
+                setMessage('Por favor active la ubicación...');
+                const { lat, lng } = await getUserGeolocation();
+                dispatch(setCoordinates(lat, lng));
+                setMessage('Cargando Terrenos...');
+                await dispatch(setTerrains());
+            } catch (e) {
+                setMessage(e);
+                setErrorMessage(e);
+            }
+        };
+        initialLoading();
+        return () => {};
+    }, []);
 
-const mapStateToProps = state => {
-	const { terrains, coordinates } = state;
-	const { lat, lng } = coordinates;
+    if (lat && lng && terrains.length > 0 && !errorMessage)
+        return (
+            <div className="ui container">
+                <div className="ui grid">
+                    <div className="row">
+                        <TerrainSection />
+                    </div>
+                    <div className="row">
+                        <MapContainer />
+                    </div>
+                </div>
+            </div>
+        );
+    return <Spinner message={message} />;
+};
+
+const mapStateToProps = (state) => {
+    const { terrains, coordinates } = state;
+    const { lat, lng } = coordinates;
     return { terrains: Object.values(terrains), lat, lng };
-}
+};
 
-export default connect(mapStateToProps, { setCoordinates, fetchTerrains })(Index);
+export default Index;
 
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do

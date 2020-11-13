@@ -1,37 +1,44 @@
 import React, { useEffect } from 'react';
-import Slider from "react-slick";
+import Slider from 'react-slick';
+import { useSelector } from 'react-redux';
+
 import { Terrain } from '../../pages/api/spreadsheet';
-import { connect } from 'react-redux';
-import { TerrainCard } from '../atoms'
+import { TerrainCard } from '../atoms';
 import styles from './TerrainCarousel.module.scss';
 
-const TerrainCarousel = ({ terrains, selectedTerrain }: 
-  	{ terrains: Array<Terrain>, selectedTerrain: Terrain }) => {
-	const slider = React.createRef<Slider>();
-	useEffect(() => {
-		slider.current.slickGoTo(terrains.findIndex(t => t.id === selectedTerrain.id))
-	}, [selectedTerrain]);
-	const terrainCards = terrains?.map( t => {
-		return <TerrainCard key={t.id} terrain={t} />
-	});
-	return (
-		<div className={styles.carousel}>
-			<Slider
-				ref={slider}
-				infinite={false}
-				speed={500}
-				variableWidth={true}
-				slideToShow={7}
+const TerrainCarousel = () => {
+    const {
+        terrains,
+        terrain
+    }: {
+        terrains: Array<Terrain>;
+        terrain: Terrain;
+    } = useSelector((state) => state.terrain);
+
+    const terrainsValues = Object.values(terrains);
+    const slider = React.createRef<Slider>();
+
+    useEffect(() => {
+        slider.current.slickGoTo(terrainsValues.findIndex((t) => t.id === terrain.id));
+    }, [terrain]);
+
+    const terrainCards = terrainsValues?.map((t) => {
+        return <TerrainCard key={t.id} terrain={t} />;
+    });
+
+    return (
+        <div className={styles.carousel}>
+            <Slider
+                ref={slider}
+                infinite={false}
+                speed={500}
+                variableWidth={true}
+                slideToShow={7}
                 adaptiveHeight={true}>
-				{terrainCards}
-			</Slider>
-		</div>
-	);
-}
+                {terrainCards}
+            </Slider>
+        </div>
+    );
+};
 
-const mapStateToProps = state => {
-	const { selectedTerrain, terrains } = state;
-    return { selectedTerrain, terrains: Object.values(terrains) };
-}
-
-export default connect(mapStateToProps, { })(TerrainCarousel);
+export default TerrainCarousel;

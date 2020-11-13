@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Terrain } from '../../pages/api/spreadsheet';
 import { TerrainCarousel, TerrainOfferCarousel } from '../molecules';
 
 const TerrainSection = () => {
@@ -9,7 +8,7 @@ const TerrainSection = () => {
             <h3 className="ui header">Ofertas</h3>
             <TerrainOfferCarousel />
         </Fragment>
-    )
-}
+    );
+};
 
 export default TerrainSection;

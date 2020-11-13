@@ -8,9 +8,7 @@ const TerrainOfferCard = ({ terrainOffer }: { terrainOffer: TerrainOffer }) => {
     return (
         <div className={`ui card ${styles.terrainOfferCard}`}>
             <div className="content">
-                <span className="right floated">
-                    {situation}
-                </span>
+                <span className="right floated">{situation}</span>
                 <div className="header">{formattedPrice}</div>
                 <div className="meta">
                     <span className="area">{area}</span>
@@ -19,9 +17,10 @@ const TerrainOfferCard = ({ terrainOffer }: { terrainOffer: TerrainOffer }) => {
             <div className="extra content">
                 <a className="right floated">Detalles</a>
                 <a href={`tel:${phone}`}>
-                <i  title={charge}
-                    className={`${ charge === 'Agente' ? 'suitcase' : 'user' } icon`}></i>
-                {contact}
+                    <i
+                        title={charge}
+                        className={`${charge === 'Agente' ? 'suitcase' : 'user'} icon`}></i>
+                    {contact}
                 </a>
             </div>
         </div>

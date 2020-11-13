@@ -12,6 +12,7 @@
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "google-spreadsheet": "^3.0.13",
+    "keymirror": "^0.1.1",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",

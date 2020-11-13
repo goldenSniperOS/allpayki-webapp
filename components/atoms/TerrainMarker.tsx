@@ -1,24 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { Terrain } from  '../../pages/api/spreadsheet';
-import { selectTerrain } from '../../actions';
+import { Terrain } from '../../pages/api/spreadsheet';
+import { setTerrain } from '../../services/store/terrain/actions';
 
-const TerrainMarker = ({ terrain, selectedTerrain, selectTerrain }: 
-    { terrain: Terrain, selectedTerrain: Terrain, selectTerrain: any }) => {
+const TerrainMarker = ({ terrain }: { terrain: Terrain }) => {
     const { id, projectName } = terrain;
-    const icon = selectedTerrain?.id === id ? 'yellow' : 'red';
+    const { terrain: currentTerrain } = useSelector((state) => state.terrain);
+    const dispatch = useDispatch();
+
+    const icon = currentTerrain?.id === id ? 'yellow' : 'red';
     return (
-        <div
-            onClick={() => selectTerrain(terrain)}>
+        <div onClick={() => dispatch(setTerrain(terrain))}>
             <i title={projectName} className={`${icon} large map marker icon`}></i>
         </div>
-    )
-}
+    );
+};
 
-const mapStateToProps = state => {
-    const { selectedTerrain } = state;
-    return { selectedTerrain };
-}
-
-export default connect(mapStateToProps, { selectTerrain })(TerrainMarker);
+export default TerrainMarker;
