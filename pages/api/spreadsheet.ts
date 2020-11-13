@@ -15,7 +15,7 @@ const ID = () => {
   return '_' + Math.random().toString(36).substr(2, 9);
 };
 
-class TerrainOffer {
+export class TerrainOffer {
 	id: string = null;
 	situation: string = null;
   	entity: string = null;
@@ -25,7 +25,7 @@ class TerrainOffer {
 	price: string = null;
 	area: number = 0;
 	dimensions: string = null;
-	address: string = null;
+	
 	details: string = null;
 	electricity: boolean = false;
 	water: boolean = false;
@@ -41,7 +41,6 @@ class TerrainOffer {
 		this.charge = row.Cargo;
 		this.phone = row.Contacto;
 		this.price = row.Precio;
-		this.address = row.Direccion;
 		this.area = row.Area;
 		
 		this.entity = row.Entidad;
@@ -61,6 +60,7 @@ export class Terrain {
 	lat: number = 0;
 	lng: number = 0;
 	projectName: string = "Sin Nombre";
+	address: string = null;
 	offers: Array<TerrainOffer> = [];
 
 	constructor(lat: number, lng: number, row: any) {
@@ -68,6 +68,7 @@ export class Terrain {
 		this.lat = lat;
 		this.lng = lng;
 		this.projectName = row.Nombre || "Sin Nombre";
+		this.address = row.Direccion;
 		this.offers = [new TerrainOffer(row)];
 	}
 
