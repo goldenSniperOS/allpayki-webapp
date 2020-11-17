@@ -1,4 +1,5 @@
 import constants from './constants';
+const { FETCH_TERRAINS, SELECT_TERRAIN } = constants;
 import { getTerrains } from '../../api/terrain';
 
 /**
@@ -8,10 +9,7 @@ import { getTerrains } from '../../api/terrain';
  */
 
 function updateTerrains(terrains) {
-    return {
-        type: constants.FETCH_TERRAINS,
-        payload: terrains
-    };
+    return { type: FETCH_TERRAINS, payload: terrains };
 }
 
 export const setTerrains = () => async (dispatch) => {
@@ -24,30 +22,11 @@ export const setTerrains = () => async (dispatch) => {
  *
  * @param {Terrain} terrain
  */
+
 const updateTerrain = (terrain) => {
-    return {
-        type: constants.SELECT_TERRAIN,
-        payload: terrain
-    };
+    return { type: SELECT_TERRAIN, payload: terrain };
 };
 
 export const setTerrain = (terrain) => async (dispatch) => {
     dispatch(updateTerrain(terrain));
-};
-
-/**
- * Set coords
- *
- * @param {Terrain} terrain
- */
-
-const updateCoordinates = (payload) => {
-    return {
-        type: constants.SET_COORDINATES,
-        payload
-    };
-};
-
-export const setCoordinates = (lat, lng) => async (dispatch) => {
-    dispatch(updateCoordinates({ lat, lng }));
 };

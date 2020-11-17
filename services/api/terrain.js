@@ -1,3 +1,3 @@
-import apiIntance from './apiIntence';
+import apiInstance from './apiInstance';
 
-export const getTerrains = () => apiIntance.get('/spreadsheet');
+export const getTerrains = () => apiInstance.get('/spreadsheet');

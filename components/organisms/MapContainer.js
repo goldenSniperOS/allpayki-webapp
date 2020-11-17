@@ -6,7 +6,11 @@ import styles from './MapContainer.module.scss';
 import { TerrainMarker } from '../atoms';
 
 const MapContainer = () => {
-    const { lat, lng, terrains, terrain } = useSelector((state) => state.terrain);
+    const { terrains, terrain } = useSelector((state) => {
+        const { terrains, terrain } = state.terrain;
+        return { terrains: Object.values(terrains), terrain };
+    });
+    const { lat, lng } = useSelector((state) => state.app);
     const [map, setMap] = useState(null);
 
     useEffect(() => {
@@ -17,7 +21,7 @@ const MapContainer = () => {
         return () => {};
     }, [terrain]);
 
-    const markers = Object.values(terrains)?.map((t) => {
+    const markers = terrains?.map((t) => {
         const { lat, lng, id } = t;
         return <TerrainMarker key={id} lat={lat} lng={lng} terrain={t} />;
     });

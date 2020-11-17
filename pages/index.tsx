@@ -5,22 +5,15 @@ import { Spinner } from '../components/atoms';
 import { MapContainer, TerrainSection } from '../components/organisms';
 
 import { Terrain } from './api/spreadsheet';
-import { setTerrains, setCoordinates } from '../services/store/terrain/actions';
+import { setTerrains } from '../services/store/terrain/actions';
+import { setCoordinates } from '../services/store/app/actions';
 
 import { getUserGeolocation } from '../utils';
 
 const Index = () => {
-    const {
-        lat,
-        lng,
-        terrains
-    }: {
-        lat: number;
-        lng: number;
-        terrains: Array<Terrain>;
-    } = useSelector((state) => state.terrain);
+    const terrains: Array<Terrain> = useSelector((state) => Object.values(state.terrain.terrains));
+    const { lat, lng }: { lat: number; lng: number } = useSelector((state) => state.app);
     const dispatch = useDispatch();
-
     const [message, setMessage] = useState('Cargando Allpayki...');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -57,14 +50,7 @@ const Index = () => {
     return <Spinner message={message} />;
 };
 
-const mapStateToProps = (state) => {
-    const { terrains, coordinates } = state;
-    const { lat, lng } = coordinates;
-    return { terrains: Object.values(terrains), lat, lng };
-};
-
 export default Index;
-
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.

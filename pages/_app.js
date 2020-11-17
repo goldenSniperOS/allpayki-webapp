@@ -1,11 +1,12 @@
 import '../styles/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
 import { Fragment } from 'react';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
+
 import { store } from '../services/store';
-//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const MyApp = ({ Component, pageProps }) => {
     return (

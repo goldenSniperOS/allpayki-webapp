@@ -13,16 +13,17 @@ const TerrainCarousel = () => {
     }: {
         terrains: Array<Terrain>;
         terrain: Terrain;
-    } = useSelector((state) => state.terrain);
-
-    const terrainsValues = Object.values(terrains);
+    } = useSelector((state) => {
+        const { terrains, terrain } = state.terrain;
+        return { terrains: Object.values(terrains), terrain };
+    });
     const slider = React.createRef<Slider>();
 
     useEffect(() => {
-        slider.current.slickGoTo(terrainsValues.findIndex((t) => t.id === terrain.id));
+        slider.current.slickGoTo(terrains.findIndex((t) => t.id === terrain.id));
     }, [terrain]);
 
-    const terrainCards = terrainsValues?.map((t) => {
+    const terrainCards = terrains?.map((t) => {
         return <TerrainCard key={t.id} terrain={t} />;
     });
 
